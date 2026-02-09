@@ -1,0 +1,13 @@
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: school_db
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: school_inventory
+      MARIADB_USER: student
+      MARIADB_PASSWORD: student
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db_data:/var/lib/mysql
