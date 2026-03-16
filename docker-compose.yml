@@ -1,6 +1,7 @@
 services:
   mariadb:
     image: mariadb:latest
+    restart: always
     container_name: school_db
     environment:
       MARIADB_ROOT_PASSWORD: root
