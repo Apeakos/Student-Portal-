@@ -4,10 +4,10 @@ services:
     restart: always
     container_name: school_db
     environment:
-      MARIADB_ROOT_PASSWORD: root
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MARIADB_DATABASE: school_inventory
-      MARIADB_USER: student
-      MARIADB_PASSWORD: student
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
