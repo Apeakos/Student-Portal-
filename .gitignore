@@ -1,4 +1,16 @@
+# Java / Maven
 target/
+*.class
 .mvn/
-.idea/
+mvnw
+mvnw.cmd
+
+# Node / React
+frontend/node_modules/
+frontend/build/
+.env.local
+
+# Docker & OS
 db_data/
+.DS_Store
+.idea/
