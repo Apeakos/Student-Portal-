@@ -1,20 +1,29 @@
 package cz.studentportal.studentportalbackend;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/students")
+@CrossOrigin(origins = "*")
 public class StudentController {
 
+    private final StudentRepository studentRepository;
+
+    @Autowired
+    public StudentController(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
+
     @GetMapping
-    public List<Map<String, Object>> getAllStudents() {
-        return List.of(
-                Map.of("id", 1, "firstName", "Jan", "lastName", "Novák", "email", "jan.novak@example.com"),
-                Map.of("id", 2, "firstName", "Petr", "lastName", "Svoboda", "email", "petr.svoboda@example.com")
-        );
+    public List<Student> getAllStudents() {
+        return studentRepository.findAll();
+    }
+
+    @PostMapping
+    public Student addStudent(@RequestBody Student student) {
+        return studentRepository.save(student);
     }
 }
