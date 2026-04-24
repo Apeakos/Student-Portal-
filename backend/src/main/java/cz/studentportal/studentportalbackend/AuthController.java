@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -26,14 +28,20 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         Optional<Student> studentOpt = studentRepository.findByEmail(request.email);
 
         if (studentOpt.isPresent()) {
             Student student = studentOpt.get();
-            //Porovnání hesla
+
             if (passwordEncoder.matches(request.password, student.getPassword())) {
-                return ResponseEntity.ok("Přihlášení úspěšné!"); // Sem později přidáme předměty/data
+                Map<String, Object> userData = new HashMap<>();
+                userData.put("id", student.getId());
+                userData.put("firstName", student.getFirstName());
+                userData.put("lastName", student.getLastName());
+                userData.put("email", student.getEmail());
+
+                return ResponseEntity.ok(userData);
             }
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Špatný email nebo heslo");
