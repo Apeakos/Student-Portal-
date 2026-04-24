@@ -18,12 +18,22 @@ public class Student {
 
     private String email;
 
+    private String password;
+
     public Student() {}
 
     public Student(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Long getId() { return id; }
