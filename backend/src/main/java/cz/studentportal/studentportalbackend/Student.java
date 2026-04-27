@@ -47,4 +47,13 @@ public class Student {
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private java.util.List<Subject> subjects;
+
+    public java.util.List<Subject> getSubjects() { return subjects; }
+    public void setSubjects(java.util.List<Subject> subjects) { this.subjects = subjects; }
+
+
+
 }

@@ -20,8 +20,6 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    //Class-příjem z Reactu
     public static class LoginRequest {
         public String email;
         public String password;
