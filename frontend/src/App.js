@@ -1,16 +1,22 @@
-import React, { useState, useEffect } from 'react'; // Přidali jsme useEffect
+import React, { useState, useEffect } from 'react';
 import Login from './Login';
 
 function App() {
     const [user, setUser] = useState(null);
-    const [subjects, setSubjects] = useState([]); // Stav pro předměty
+    const [subjects, setSubjects] = useState([]);
 
     useEffect(() => {
         if (user) {
             fetch('http://localhost:8081/api/students/${user.id}/subjects')
         .then(res => res.json())
-                .then(data => setSubjects(data))
-                .catch(err => console.error("Chyba při načítání předmětů:", err));
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        setSubjects(data);
+                    } else {
+                        setSubjects([]);
+                    }
+                })
+                .catch(err => console.error("Chyba:", err));
         }
     }, [user]);
 
