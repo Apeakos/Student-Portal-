@@ -1,6 +1,6 @@
-🎓 Student Portal
+Student Portal
 
-## ⚙️ Tech Stack
+## Tech Stack
 
 | Vrstva | Technologie |
 |--------|--------------|
@@ -10,6 +10,3 @@
 | **Orchestrace** | Docker Compose |
 | **IDE** | IntelliJ IDEA Ultimate |
 
----
-
-## 🧩 Struktura projektu
