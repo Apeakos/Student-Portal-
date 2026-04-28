@@ -1,32 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // Přidali jsme useEffect
 import Login from './Login';
 
 function App() {
+    const [user, setUser] = useState(null);
+    const [subjects, setSubjects] = useState([]); // Stav pro předměty
 
-  const [user, setUser] = useState(null);
+    useEffect(() => {
+        if (user) {
+            fetch('http://localhost:8081/api/students/${user.id}/subjects')
+        .then(res => res.json())
+                .then(data => setSubjects(data))
+                .catch(err => console.error("Chyba při načítání předmětů:", err));
+        }
+    }, [user]);
 
-  if (!user) {
-    return <Login onLogin={(userData) => setUser(userData)} />;
-  }
+    if (!user) return <Login onLogin={(userData) => setUser(userData)} />;
 
-  return (
-      <div style={{ padding: '30px', fontFamily: 'sans-serif' }}>
-        <h1>Vítej v portálu, {user.firstName} {user.lastName}!</h1>
-        <p>Tvůj email: {user.email}</p>
+    return (
+        <div style={{ padding: '30px', fontFamily: 'sans-serif' }}>
+            <h1>Vítej v portálu, {user.firstName} {user.lastName}!</h1>
 
-        <hr style={{ margin: '20px 0' }} />
+            <h3>Tvoje známky:</h3>
+            <table border="1" cellPadding="10" style={{ borderCollapse: 'collapse', width: '300px' }}>
+                <thead>
+                <tr style={{ backgroundColor: '#f2f2f2' }}>
+                    <th>Předmět</th>
+                    <th>Známka</th>
+                </tr>
+                </thead>
+                <tbody>
+                {subjects.map((sub, index) => (
+                    <tr key={index}>
+                        <td>{sub.name}</td>
+                        <td>{sub.grade}</td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
 
-        <h3>Tvoje předměty:</h3>
-        <p><i>(Tady v dalším kroku přidáme tabulku se známkami z databáze)</i></p>
-
-        <button
-            onClick={() => setUser(null)}
-            style={{ marginTop: '20px', padding: '5px 15px', color: 'red' }}
-        >
-          Odhlásit se
-        </button>
-      </div>
-  );
+            <button onClick={() => setUser(null)} style={{ marginTop: '20px' }}>Odhlásit se</button>
+        </div>
+    );
 }
 
 export default App;
