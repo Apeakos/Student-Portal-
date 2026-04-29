@@ -2,13 +2,26 @@ import React, { useState, useEffect } from 'react';
 import Login from './Login';
 
 function App() {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(() => {
+        const savedUser = localStorage.getItem('studentPortalUser'); //local storage aby uživatel zůstal lognutý
+        return savedUser ? JSON.parse(savedUser) : null;
+    });
+
     const [subjects, setSubjects] = useState([]);
+
+    const handleLogin = (userData) => {
+        localStorage.setItem('studentPortalUser', JSON.stringify(userData));
+        setUser(userData);
+    };
+    const handleLogout = () => {
+        localStorage.removeItem('studentPortalUser');
+        setUser(null);
+    };
 
     useEffect(() => {
         if (user) {
-            fetch('http://localhost:8081/api/students/${user.id}/subjects')
-        .then(res => res.json())
+            fetch(`http://localhost:8081/api/students/${user.id}/subjects`)
+                .then(res => res.json())
                 .then(data => {
                     if (Array.isArray(data)) {
                         setSubjects(data);
@@ -16,11 +29,12 @@ function App() {
                         setSubjects([]);
                     }
                 })
-                .catch(err => console.error("Chyba:", err));
+                .catch(err => console.error("Chyba při načítání předmětů:", err));
         }
     }, [user]);
 
-    if (!user) return <Login onLogin={(userData) => setUser(userData)} />;
+    //pokud user není lognutý, zobrazí se login
+    if (!user) return <Login onLogin={handleLogin} />;
 
     return (
         <div style={{ padding: '30px', fontFamily: 'sans-serif' }}>
@@ -44,7 +58,9 @@ function App() {
                 </tbody>
             </table>
 
-            <button onClick={() => setUser(null)} style={{ marginTop: '20px' }}>Odhlásit se</button>
+            <button onClick={handleLogout} style={{ marginTop: '20px', padding: '5px 15px', cursor: 'pointer' }}>
+                Odhlásit se
+            </button>
         </div>
     );
 }
