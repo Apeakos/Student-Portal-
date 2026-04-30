@@ -3,14 +3,14 @@ import Login from './Login';
 
 function App() {
     const [user, setUser] = useState(() => {
-        const savedUser = localStorage.getItem('studentPortalUser'); //local storage aby uživatel zůstal lognutý
+        const savedUser = localStorage.getItem('studentPortalUser'); //uložení usera do state
         return savedUser ? JSON.parse(savedUser) : null;
     });
 
     const [subjects, setSubjects] = useState([]);
 
     const handleLogin = (userData) => {
-        localStorage.setItem('studentPortalUser', JSON.stringify(userData));
+        localStorage.setItem('studentPortalUser', JSON.stringify(userData));        //uložení do local storage
         setUser(userData);
     };
     const handleLogout = () => {

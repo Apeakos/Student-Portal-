@@ -19,3 +19,15 @@ CREATE TABLE IF NOT EXISTS subject (
 
 INSERT INTO subject (name, grade, student_id) VALUES ('Matematika', 1, 1);
 INSERT INTO subject (name, grade, student_id) VALUES ('Programování', 2, 1);
+
+INSERT INTO student (email, first_name, last_name, password)
+VALUES ('jan.novak@portal.cz', 'Jan', 'Novák', '$2a$10$....tvoje_bcrypt_heslo....');
+
+INSERT INTO student (email, first_name, last_name, password)
+VALUES ('test@portal.cz', 'Test', 'Uživatel', '$2a$12$StDJsfSCrQkZouX0de/H4OqYO7Nghx0zjTKiKG1DagVW9ho9SU/Ki');
+
+INSERT INTO subject (name, grade, student_id) VALUES ('Matematika', 1, 1);
+
+INSERT INTO subject (name, grade, student_id) VALUES ('Tělocvik', 1, 4);
+INSERT INTO subject (name, grade, student_id) VALUES ('Programování v Javě', 2, 4);
+INSERT INTO subject (name, grade, student_id) VALUES ('React', 1, 4);
