@@ -1,10 +1,12 @@
 package cz.studentportal.studentportalbackend;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/students")
@@ -16,11 +18,6 @@ public class StudentController {
     @Autowired
     public StudentController(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
-    }
-
-    @GetMapping
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll();
     }
 
     @PostMapping
@@ -40,6 +37,20 @@ public class StudentController {
         }
 
         return ResponseEntity.ok(subjects);
+    }
+    @GetMapping
+    public ResponseEntity<List<Student>> getAllStudents() {
+        return ResponseEntity.ok(studentRepository.findAll());
+    }
+    @PostMapping("/{id}/subjects")
+    public ResponseEntity<?> addSubjectToStudent(@PathVariable Long id, @RequestBody Subject newSubject) {
+        Optional<Student> studentOpt = studentRepository.findById(id);
+        if (studentOpt.isPresent()) {
+            Student student = studentOpt.get();
+            newSubject.setStudent(student);
+            return ResponseEntity.ok(subjectRepository.save(newSubject));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student nenalezen");
     }
 
 }

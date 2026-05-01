@@ -39,6 +39,8 @@ public class AuthController {
                 userData.put("lastName", student.getLastName());
                 userData.put("email", student.getEmail());
 
+                userData.put("role", student.getRole());
+
                 return ResponseEntity.ok(userData);
             }
         }
