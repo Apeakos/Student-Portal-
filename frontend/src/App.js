@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import Login from './Login';
+import './App.css';
 
 function App() {
     const [user, setUser] = useState(() => {
-        const savedUser = localStorage.getItem('studentPortalUser'); //uložení usera do state
+        const savedUser = localStorage.getItem('studentPortalUser');
         return savedUser ? JSON.parse(savedUser) : null;
     });
 
     const [subjects, setSubjects] = useState([]);
 
     const handleLogin = (userData) => {
-        localStorage.setItem('studentPortalUser', JSON.stringify(userData));        //uložení do local storage
+        localStorage.setItem('studentPortalUser', JSON.stringify(userData));
         setUser(userData);
     };
+
     const handleLogout = () => {
         localStorage.removeItem('studentPortalUser');
         setUser(null);
@@ -33,34 +35,39 @@ function App() {
         }
     }, [user]);
 
-    //pokud user není lognutý, zobrazí se login
     if (!user) return <Login onLogin={handleLogin} />;
 
     return (
-        <div style={{ padding: '30px', fontFamily: 'sans-serif' }}>
-            <h1>Vítej v portálu, {user.firstName} {user.lastName}!</h1>
+        <div>
+            <nav className="navbar">
+                <h2>🎓 Studentský Portál</h2>
+                <button onClick={handleLogout} className="btn btn-danger">
+                    Odhlásit se
+                </button>
+            </nav>
+            <div className="portal-container">
+                <h2>Vítej zpět, {user.firstName}! 👋</h2>
 
-            <h3>Tvoje známky:</h3>
-            <table border="1" cellPadding="10" style={{ borderCollapse: 'collapse', width: '300px' }}>
-                <thead>
-                <tr style={{ backgroundColor: '#f2f2f2' }}>
-                    <th>Předmět</th>
-                    <th>Známka</th>
-                </tr>
-                </thead>
-                <tbody>
-                {subjects.map((sub, index) => (
-                    <tr key={index}>
-                        <td>{sub.name}</td>
-                        <td>{sub.grade}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-
-            <button onClick={handleLogout} style={{ marginTop: '20px', padding: '5px 15px', cursor: 'pointer' }}>
-                Odhlásit se
-            </button>
+                <div className="grades-card">
+                    <h3>Přehled klasifikace</h3>
+                    <table className="grades-table">
+                        <thead>
+                        <tr>
+                            <th>Předmět</th>
+                            <th>Známka</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {subjects.length > 0 ? subjects.map((sub, index) => (
+                            <tr key={index}>
+                                <td>{sub.name}</td>
+                                <td><span className="grade-badge">{sub.grade}</span></td>
+                            </tr>
+                        )) : <tr><td colSpan="2">Zatím žádné známky.</td></tr>}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     );
 }
