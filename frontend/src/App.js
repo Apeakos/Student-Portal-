@@ -8,8 +8,9 @@ function App() {
         return savedUser ? JSON.parse(savedUser) : null;
     });
 
-    const [subjects, setSubjects] = useState([]);
 
+
+    const [subjects, setSubjects] = useState([]);
     const [allStudents, setAllStudents] = useState([]);
     const [newSubjectName, setNewSubjectName] = useState('');
     const [newGrade, setNewGrade] = useState('');
@@ -70,7 +71,7 @@ function App() {
     return (
         <div>
             <nav className="navbar">
-                <h2>🎓 Studentský Portál</h2>
+                <h2> Studentský Portál</h2>
                 <button onClick={handleLogout} className="btn btn-danger">Odhlásit se</button>
             </nav>
 
