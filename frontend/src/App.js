@@ -15,6 +15,10 @@ function App() {
     const [newSubjectName, setNewSubjectName] = useState('');
     const [newGrade, setNewGrade] = useState('');
     const [selectedStudentId, setSelectedStudentId] = useState('');
+    const [newFirstName, setNewFirstName] = useState('');
+    const [newLastName, setNewLastName] = useState('');
+    const [newEmail, setNewEmail] = useState('');
+    const [newPassword, setNewPassword] = useState('');
 
     const handleLogin = (userData) => {
         localStorage.setItem('studentPortalUser', JSON.stringify(userData));
@@ -63,6 +67,30 @@ function App() {
             setNewGrade('');
         } else {
             alert("Něco se pokazilo při zápisu známky.");
+        }
+    };
+
+    const handleAddStudent = async (e) => {
+        e.preventDefault();
+        const response = await fetch('http://localhost:8081/api/students/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                firstName: newFirstName,
+                lastName: newLastName,
+                email: newEmail,
+                password: newPassword
+            })
+        });
+
+        if (response.ok) {
+            alert("Student byl vytvořen");
+            setNewFirstName(''); setNewLastName(''); setNewEmail(''); setNewPassword('');
+            fetch('http://localhost:8081/api/students')
+                .then(res => res.json())
+                .then(data => setAllStudents(data.filter(s => s.role === 'STUDENT' || !s.role)));
+        } else {
+            alert("Něco se pokazilo");
         }
     };
 
