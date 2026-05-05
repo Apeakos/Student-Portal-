@@ -133,6 +133,31 @@ function App() {
                                 <input type="number" min="1" max="5" value={newGrade} onChange={(e) => setNewGrade(e.target.value)} required />
                             </div>
                             <button type="submit" className="btn">Zapsat do databáze</button>
+                            <div className="grades-card">
+                                <h3>Přidat nového studenta do systému</h3>
+                                <form onSubmit={handleAddStudent} style={{ marginTop: '1.5rem' }}>
+                                    <div className="input-group">
+                                        <label>Jméno:</label>
+                                        <input type="text" value={newFirstName} onChange={(e) => setNewFirstName(e.target.value)} required />
+                                    </div>
+                                    <div className="input-group">
+                                        <label>Příjmení:</label>
+                                        <input type="text" value={newLastName} onChange={(e) => setNewLastName(e.target.value)} required />
+                                    </div>
+                                    <div className="input-group">
+                                        <label>Email:</label>
+                                        <input type="email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} required />
+                                    </div>
+                                    <div className="input-group">
+                                        <label>Heslo:</label>
+                                        <input type="text" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
+                                    </div>
+                                    <button type="submit" className="btn" style={{ backgroundColor: '#10b981' }}>
+                                        Vytvořit studenta
+                                    </button>
+                                </form>
+                            </div>
+
                         </form>
                     </div>
                 ) : (
@@ -155,6 +180,7 @@ function App() {
                 )}
             </div>
         </div>
+
     );
 }
 
