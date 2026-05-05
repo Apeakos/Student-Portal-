@@ -3,6 +3,7 @@ package cz.studentportal.studentportalbackend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,6 +52,20 @@ public class StudentController {
             return ResponseEntity.ok(subjectRepository.save(newSubject));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student nenalezen");
+    }
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @PostMapping("/register")
+    public ResponseEntity<?> createNewStudent(@RequestBody Student newStudent) {
+        String plainPassword = newStudent.getPassword();
+        newStudent.setPassword(passwordEncoder.encode(plainPassword));
+
+        newStudent.setRole("STUDENT");
+
+        studentRepository.save(newStudent);
+        return ResponseEntity.ok().body("{\"message\": \"Student úspěšně vytvořen\"}");
     }
 
 }
